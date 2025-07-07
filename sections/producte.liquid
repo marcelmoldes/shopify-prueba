@@ -1,0 +1,287 @@
+<div class="section">
+  <div id="alerta-pack" class="mini-alert hidden" role="alert">
+    <span>Producto añadido al carrito</span>
+  </div>
+<body>
+  <div class="pack-wrapper">
+    <div class="pack-image">
+      <div class="product">
+        <img id="producto-imagen1" src="" alt="Producto imagen 1" class="default" />
+        <img id="producto-imagen2" src="" alt="Producto imagen 2" class="hover" />
+      </div>
+    </div>
+
+    <div class="pack-content">
+      <div class="botones">
+        <button id="btn0" onclick="mostrarProducto(0)" class="product-option">Pack Night</button>
+        <button id="btn1" onclick="mostrarProducto(1)" class="product-option">Pack Moon</button>
+      </div>
+
+      <h2 id="producto-titulo"></h2>
+      <p>
+        <del id="producto-precio"></del> €
+        <strong id="producto-descuento" class="precio-descuento"></strong> €
+      </p>
+
+      <div class="product-counter">
+        <button id="decrement" class="counter-btn">-</button>
+        <input id="quantity" type="number" min="1" value="1" class="counter-input" />
+        <button id="increment" class="counter-btn">+</button>
+      </div>
+
+      <button onclick="añadirAlCarrito()" class="pack-button">Comprar el Pack</button>
+
+      <p id="producto-descripcion" class="description"></p>
+    </div>
+  </div>
+  </body>
+</div>
+
+<style>
+body {
+    margin-left: 0;
+
+}
+  .product-option.active {
+    background-color: black;
+    color: white;
+    border-color: black;
+  }
+  .mini-alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #3b82f6;
+    color: white;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 10px 14px;
+    border-radius: 6px;
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .mini-alert.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .product-counter {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 1rem;
+  }
+  .counter-btn {
+    padding: 8px 12px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  .counter-input {
+    width: 50px;
+    text-align: center;
+    font-size: 16px;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  .section {
+    margin-left:0;
+   margin:3rem;
+
+  }
+  .pack-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2rem;
+  }
+  .pack-image {
+    object-fit: contain;
+    flex: 1 1 200px;
+    display: flex;
+    justify-content: center;
+  }
+  .product {
+    position: relative;
+    width: 20rem;
+    height: 20rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+  .product img.default,
+  .product img.hover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.6s ease-in-out;
+  }
+  .product img.hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+  }
+  .product:hover img.default {
+    opacity: 0;
+  }
+  .product:hover img.hover {
+    opacity: 1;
+  }
+  .pack-content {
+    flex: 2 1 300px;
+  }
+  .pack-content h2 {
+    font-size: 22px;
+    margin-bottom: 0.5rem;
+    margin: 1rem;
+    margin-left: 0;
+  }
+  .pack-content p {
+    font-size: 16px;
+    margin-bottom: 1rem;
+  }
+  .precio-descuento {
+    color: green;
+    font-weight: bold;
+  }
+  .pack-button {
+    padding: 10px 60px;
+    background: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+  }
+  .pack-button:hover {
+    background: #333;
+  }
+  .description {
+    font-size: 16px;
+    color: #444;
+    margin-top: 1rem;
+  }
+  .product-option {
+    padding: 8px 12px;
+    margin-right: 8px;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+  .product-option:hover {
+    background-color: #ddd;
+  }
+</style>
+
+<script>
+  const productos = [
+    {
+      titulo: "Raton Gaming PRO45 + Teclado Gaming X Night",
+      descripcion: "Pack con sensor de alta precisión y teclas mecánicas retroiluminadas.",
+      descuento: 20.0,
+      precio: 30.0,
+       imagen1: "{{ 'raton-gaming.jpg' | asset_url }}",
+       imagen2: "{{ 'teclado-gaming-x-night.jpg' | asset_url }}",
+      variantId: 55947714593155,
+    },
+    {
+      titulo: "Auriculares Gaming Z500 + Micrófono BoomMic",
+      descripcion: "Sonido envolvente y micrófono profesional para tus partidas.",
+      descuento: 25.0,
+      precio: 40.0,
+      imagen1: "{{ 'auriculares-gaming.jpg' | asset_url }}",
+      imagen2: "{{ 'microfono-gaming.jpg' | asset_url }}",
+      variantId: 55947906646403,
+    },
+  ];
+
+  let productoActual = 0;
+
+  function mostrarProducto(index) {
+    productoActual = index;
+    const producto = productos[index];
+    document.getElementById("producto-imagen1").src = producto.imagen1;
+    document.getElementById("producto-imagen2").src = producto.imagen2;
+    document.getElementById("producto-titulo").textContent = producto.titulo;
+    document.getElementById("producto-precio").textContent = producto.precio.toFixed(2);
+    document.getElementById("producto-descuento").textContent = producto.descuento.toFixed(2);
+    document.getElementById("producto-descripcion").textContent = producto.descripcion;
+    actualizarPrecioTotal();
+    document.getElementById("btn0").classList.toggle("active", index === 0);
+    document.getElementById("btn1").classList.toggle("active", index === 1);
+    document.getElementById("quantity").value = 1;
+  }
+
+  function actualizarPrecioTotal() {
+    const cantidad = parseInt(document.getElementById("quantity").value);
+    const producto = productos[productoActual];
+    const total = cantidad * producto.descuento;
+    document.getElementById("producto-descuento").textContent = total.toFixed(2);
+  }
+
+  document.getElementById("increment").addEventListener("click", () => {
+    const quantityInput = document.getElementById("quantity");
+    quantityInput.value = parseInt(quantityInput.value) + 1;
+    actualizarPrecioTotal();
+  });
+
+  document.getElementById("decrement").addEventListener("click", () => {
+    const quantityInput = document.getElementById("quantity");
+    if (parseInt(quantityInput.value) > 1) {
+      quantityInput.value = parseInt(quantityInput.value) - 1;
+      actualizarPrecioTotal();
+    }
+  });
+
+
+
+  function packAfegit() {
+    const alerta = document.getElementById("alerta-pack");
+    alerta.classList.add("visible");
+    setTimeout(() => {
+      alerta.classList.remove("visible");
+    }, 2000);
+  }
+
+ function añadirAlCarrito() {
+  const quantity = parseInt(document.getElementById("quantity").value) || 1;
+  const variantId = productos[productoActual].variantId;
+
+  fetch("/cart/add.js", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+          id: variantId,
+          quantity: quantity,
+        
+      
+    }),
+  })
+    .then((response) => response.json())
+    .then(() => {
+      packAfegit();
+
+      return fetch('/cart.js')
+    })
+      .then((response) => response.json())
+    .then((cart) => {
+      const countElement = document.getElementById("cart-count");
+      if (countElement) {
+        countElement.textContent = cart.item_count;
+      }
+    })
+    .catch(console.error);
+}
+
+
+  mostrarProducto(0);
+</script>

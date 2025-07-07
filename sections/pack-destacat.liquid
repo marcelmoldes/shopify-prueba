@@ -1,0 +1,85 @@
+<section class="pack-destacat">
+  <div class="pack-wrapper">
+    <div class="pack-content">
+      <h2>Nuestros Packs Destacados</h2>
+      <h3>Aquí podrás descubrir todos los packs mas populares y unicos</h3>
+      <p>Explora nuestras mejores ofertas y combos diseñados para mejorar tu experiencia gaming.</p>
+
+      {% if section.settings.button_text != blank and section.settings.button_link != blank %}
+        <a href="{{ section.settings.button_link }}" class="pack-button">
+          {{ section.settings.button_text }}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<style>
+.pack-featured {
+ 
+  border-bottom: 1px solid #ddd;
+}
+.pack-destacat {
+  width: 100%;
+  padding: 1rem 0; /* menos padding vertical */
+background-color: #1f1f1f;
+color: #fff;
+
+  text-align: center;
+  color: white;
+  font-size: 1rem;
+    border-radius: 0.4rem;
+
+}
+;
+.pack-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.pack-wrapper.reverse {
+  flex-direction: row-reverse;
+}
+
+
+
+.pack-content {
+  flex: 1;
+  min-width: 280px;
+}
+
+.pack-content h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.pack-content h3 {
+  font-size: 1.3rem;
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+.pack-content p {
+  font-size: 1rem;
+  color: #374151;
+  margin-bottom: 1.5rem;
+}
+
+.pack-button {
+  background-color: #111827;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  text-decoration: none;
+  border-radius: 5px;
+  display: inline-block;
+  transition: background 0.3s ease;
+}
+
+.pack-button:hover {
+  background-color: #333;
+}
+</style>

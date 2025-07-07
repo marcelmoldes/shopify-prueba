@@ -1,0 +1,13 @@
+{
+  "sections": {
+       "pack-destacat": {
+      "type": "pack-destacat"
+    },
+   
+    "producte": {
+      "type": "producte"
+    }
+
+  },
+  "order": [ "pack-destacat","producte"]
+}
